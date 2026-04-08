@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AI Resume Analyzer</title>
+
+    <!-- ✅ Correct CSS link -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🚀 AI Resume Analyzer</h1>
+
+        <form method="POST">
+            <textarea name="resume" placeholder="Paste your resume here..."></textarea>
+            <button type="submit">Analyze</button>
+        </form>
+
+        {% if skills %}
+        <div class="card">
+            <h2>🧠 Extracted Skills</h2>
+            <div class="skills">
+                {% for skill in skills %}
+                <span>{{ skill }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if results %}
+        <h2>💼 Job Matches</h2>
+
+        {% for r in results %}
+    <div class="card">
+
+    {% if loop.index == 1 %}
+    <span style="background:#22c55e;color:black;padding:4px 8px;border-radius:6px;">
+   🏆 Top Match
+</span>
+    {% endif %}
+
+    <h3>{{ r.job }}</h3>
+
+            <div class="progress-bar">
+                <div class="progress 
+               {% if r.score > 70 %}green
+            {% elif r.score > 40 %}orange
+            {% else %}red
+            {% endif %}"
+             style="width: {{ r.score }}%;">
+                    {{ r.score }}%
+                </div>
+            </div>
+
+            <p style="margin-top:10px;"><b>Missing Skills:</b></p>
+            <ul>
+            {% for m in r.missing %}
+            <li>{{ m }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>
