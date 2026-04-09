@@ -41,4 +41,10 @@ def home():
 # 🔥 RENDER DEPLOY FIX
 if __name__ == "__main__":
     import os
+<<<<<<< HEAD
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+=======
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+>>>>>>> ca5cd66f0dbbf01a00a6671ea26c39614bc28d8a
