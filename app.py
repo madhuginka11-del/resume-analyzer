@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from mymodel import extract_skills, match_jobs
 import fitz  # PyMuPDF
+import os
 
 app = Flask(__name__, static_folder="static")
 
@@ -26,7 +27,7 @@ def home():
 
         if file and file.filename.endswith(".pdf"):
             resume = extract_text_from_pdf(file)
-            print("PDF TEXT:",resume)
+            print("PDF TEXT:", resume)  # Debug
         else:
             resume = request.form.get("resume", "")
 
@@ -38,13 +39,6 @@ def home():
 
     return render_template("index.html", skills=skills, results=results, avg_score=avg_score)
 
-# 🔥 RENDER DEPLOY FIX
-if __name__ == "__main__":
-    import os
-<<<<<<< HEAD
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-=======
-
+# 🔥 RUN APP (ONLY ONCE)
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
->>>>>>> ca5cd66f0dbbf01a00a6671ea26c39614bc28d8a
