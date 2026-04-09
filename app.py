@@ -26,6 +26,7 @@ def home():
 
         if file and file.filename.endswith(".pdf"):
             resume = extract_text_from_pdf(file)
+            print("PDF TEXT:",resume)
         else:
             resume = request.form.get("resume", "")
 
