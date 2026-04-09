@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 
 # 🔹 Load skills from file
 def load_skills():
@@ -8,36 +9,25 @@ def load_skills():
 
 # 🔹 Extract skills from resume text
 def extract_skills(text):
-    import re
-
     skills_list = load_skills()
+
     text = text.lower()
     text = re.sub(r'[^a-zA-Z0-9 ]', '', text)
 
     found = []
 
+    # ✅ Match predefined skills
     for skill in skills_list:
-        if skill in text:
+        if skill.lower() in text:
             found.append(skill)
 
+    # ✅ Extra words (optional)
     stopwords = ["i", "and", "know", "the", "is", "in", "of"]
 
     words = text.split()
     for word in words:
         if word not in stopwords:
             found.append(word)
-
-    return list(set(found))
-
-    # Match predefined skills
-    for skill in skills_list:
-        if skill in text:
-            found.append(skill)
-
-    # Also split words (to catch machine, learning, etc.)
-    words = text.split()
-    for word in words:
-        found.append(word)
 
     return list(set(found))
 
@@ -62,7 +52,7 @@ def match_jobs(user_skills):
 
         match = len(matched_skills)
 
-        # ✅ Safe calculation (avoid division error)
+        # ✅ Safe calculation
         score = int((match / len(job_skills)) * 100) if len(job_skills) > 0 else 0
 
         missing = list(set(job_skills) - matched_skills)
@@ -73,5 +63,5 @@ def match_jobs(user_skills):
             "missing": missing
         })
 
-    # Sort by highest score
+    # ✅ Sort by highest score
     return sorted(results, key=lambda x: x["score"], reverse=True)
